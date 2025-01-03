@@ -1,4 +1,4 @@
 {
   "disableEmoji": false,
-  "format": "{type}{scope}: {emoji}{subject}"
+  "format": "[{task}] {type}{scope}: {emoji}{subject}"
 }

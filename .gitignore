@@ -10,4 +10,3 @@ dist/
 package-lock.json
 /binaries/
 coverage/
-pnpm-lock.yaml

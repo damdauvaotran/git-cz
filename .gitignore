@@ -6,8 +6,8 @@
 node_modules/
 npm-debug.log
 .vscode/
-yarn-error.log
 dist/
 package-lock.json
 /binaries/
 coverage/
+pnpm-lock.yaml

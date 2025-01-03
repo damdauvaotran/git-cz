@@ -14,9 +14,9 @@
   "homepage": "https://github.com/streamich/git-cz",
   "license": "Unlicense",
   "scripts": {
-    "lint": "yarn eslint",
+    "lint": "pnpm eslint",
     "clean": "rimraf dist binaries",
-    "build": "yarn build:cli && yarn build:cz",
+    "build": "pnpm build:cli && pnpm build:cz",
     "build:cli": "browserify --node -o dist/cli.js lib/cli.js",
     "build:cz": "browserify --node -o dist/cz.js --standalone prompter lib/cz.js",
     "build:readme": "mmarkdown",
@@ -61,7 +61,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint",
+      "pre-commit": "pnpm lint",
       "prepare-commit-msg": "exec < /dev/tty && node ./lib/cli.js --hook || true"
     }
   },

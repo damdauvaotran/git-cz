@@ -9,27 +9,27 @@ refs:
     - &Versions
       run:
         name: Versions
-        command: node -v && npm -v && yarn -v
+        command: node -v && npm -v && pnpm -v
     - &Install
       run:
         name: Install Dependencies
-        command: yarn install --pure-lockfile
+        command: pnpm install --frozen-lockfile
     - &Lint
       run:
         name: Lint
-        command: yarn lint
+        command: pnpm lint
     - &Build
       run:
         name: Build
-        command: yarn build
+        command: pnpm build
     - &Build_binaries
       run:
         name: Build binaries
-        command: yarn build:binaries
+        command: pnpm build:binaries
     - &Test
       run:
         name: Test
-        command: yarn test
+        command: pnpm test
     - &Post_to_dev_null
       run:
         name: 'Post to Slack #dev-null'
@@ -61,7 +61,7 @@ jobs:
       - *Post_to_dev_null
       - run:
           name: Release
-          command: yarn release
+          command: pnpm release
       - *Post_to_dev_null
 
   nightly:

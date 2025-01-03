@@ -200,6 +200,12 @@ Configuring the `format` field in `.git-cz.json` you can customize your own:
 - `{type}{scope}: {emoji}{subject}`
 - `{emoji}{scope} {subject}`
 
+You can also use the `--format` option to specify a custom format for the commit message. For example:
+
+```bash
+git-cz --format="{type}{scope}: {emoji}{subject} [{branch}]"
+```
+
 ### Type
 
 Must be one of the following:

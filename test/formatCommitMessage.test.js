@@ -76,7 +76,8 @@ const defaultState = {
     lerna: '',
     scope: '',
     subject: 'First commit',
-    type: 'feat'
+    type: 'feat',
+    branch: 'main'
   },
   config: defaultConfig,
   root: '/Users/vad/dev/git-cz'
@@ -144,5 +145,17 @@ describe('formatCommitMessage()', () => {
     });
 
     expect(message).equal('First commit :(init)feat [skip ci]');
+  });
+
+  it('includes branch name in commit message if specified in format', () => {
+    const message = formatCommitMessage({
+      ...defaultState,
+      config: {
+        ...defaultConfig,
+        format: '{type}{scope}: {emoji}{subject} [{branch}]'
+      }
+    });
+
+    expect(message).equal('feat: 🎸 First commit [main]');
   });
 });

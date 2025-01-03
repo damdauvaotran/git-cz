@@ -1,4 +1,10 @@
-const fuzzy = require('fuzzy');
+import fuzzy from 'fuzzy';
+
+interface State {
+  config: {
+    scopes: string[];
+  };
+}
 
 /**
  * Searches for the scopes containing the given substring.
@@ -6,12 +12,12 @@ const fuzzy = require('fuzzy');
  * @param {string} substring Substring to search with.
  * @param {string[]} scopes Scopes list.
  */
-const findScope = function (substring, scopes) {
-  return Promise.resolve(fuzzy.filter(substring || '', scopes).map(({original: scope}) => scope));
+const findScope = function (substring: string, scopes: string[]): Promise<string[]> {
+  return Promise.resolve(fuzzy.filter(substring || '', scopes).map(({ original: scope }) => scope));
 };
 
-exports.createQuestion = (state) => {
-  const {scopes} = state.config;
+export const createQuestion = (state: State) => {
+  const { scopes } = state.config;
 
   if (!scopes) {
     return null;
@@ -28,7 +34,7 @@ exports.createQuestion = (state) => {
   const question = {
     message: 'Select the scope this component affects:',
     name: 'scope',
-    source: (_answers, input) => findScope(input, scopes),
+    source: (_answers: any, input: string) => findScope(input, scopes),
     type: 'autocomplete'
   };
 

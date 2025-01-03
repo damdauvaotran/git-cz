@@ -1,11 +1,15 @@
-const {execSync} = require('child_process');
-const path = require('path');
-const fs = require('fs');
+import { execSync } from 'child_process';
+import path from 'path';
+import fs from 'fs';
 
-const isLerna = (state) =>
+interface State {
+  root: string;
+}
+
+const isLerna = (state: State): boolean =>
   fs.existsSync(path.join(state.root, 'lerna.json'));
 
-const isDir = (root) => (name) => {
+const isDir = (root: string) => (name: string): boolean => {
   const filepath = path.join(root, name);
 
   try {
@@ -17,9 +21,9 @@ const isDir = (root) => (name) => {
   }
 };
 
-const removeLastDirectoryPartOf = (url) => url.substring(0, url.lastIndexOf('/'));
+const removeLastDirectoryPartOf = (url: string): string => url.substring(0, url.lastIndexOf('/'));
 
-const getPackageDirectories = (state) => {
+const getPackageDirectories = (state: State): string[] => {
   const pkgFilename = path.join(state.root, 'package.json');
 
   if (fs.existsSync(pkgFilename)) {
@@ -29,8 +33,8 @@ const getPackageDirectories = (state) => {
 
       if (workspacePackages && workspacePackages.length) {
         return workspacePackages
-          .filter((workspacePackage) => workspacePackage.endsWith('*'))
-          .map((workspacePackage) =>
+          .filter((workspacePackage: string) => workspacePackage.endsWith('*'))
+          .map((workspacePackage: string) =>
             removeLastDirectoryPartOf(String(workspacePackage))
 
           // else {
@@ -46,10 +50,10 @@ const getPackageDirectories = (state) => {
     }
   }
 
-  return 'packages';
+  return ['packages'];
 };
 
-const getAllPackages = (state) => {
+const getAllPackages = (state: State): string[] => {
   try {
     const dirs = getPackageDirectories(state).map((dir) => path.join(state.root, dir));
 
@@ -59,7 +63,7 @@ const getAllPackages = (state) => {
   }
 };
 
-const getChangedFiles = () => {
+const getChangedFiles = (): string[] => {
   const devNull = process.platform === 'win32' ? ' nul' : '/dev/null';
 
   return execSync('git diff --cached --name-only 2>' + devNull)
@@ -68,8 +72,8 @@ const getChangedFiles = () => {
     .split('\n');
 };
 
-const getChangedPackages = (state) => {
-  const unique = {};
+const getChangedPackages = (state: State): string[] => {
+  const unique: { [key: string]: number } = {};
   const changedFiles = getChangedFiles();
   const regex = new RegExp('^' + getPackageDirectories(state) + '\/([^/]+)\/', 'is');
 
@@ -84,7 +88,7 @@ const getChangedPackages = (state) => {
   return Object.keys(unique);
 };
 
-module.exports = {
+export {
   getAllPackages,
   getChangedPackages,
   isLerna

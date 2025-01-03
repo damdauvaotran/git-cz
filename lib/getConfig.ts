@@ -1,8 +1,7 @@
-/* eslint-disable global-require, import/no-dynamic-require */
-const path = require('path');
-const fs = require('fs');
-const signale = require('signale');
-const defaults = require('./defaults');
+import path from 'path';
+import fs from 'fs';
+import signale from 'signale';
+import defaults from './defaults';
 
 const configFiles = [
   '.git-cz.json',
@@ -11,7 +10,7 @@ const configFiles = [
   'changelog.config.json'
 ];
 
-const findOverrides = (root) => {
+const findOverrides = (root?: string): Record<string, any> => {
   const dir = root || process.cwd();
 
   for (const file of configFiles) {
@@ -44,7 +43,7 @@ const findOverrides = (root) => {
   return {};
 };
 
-const getConfig = (root) => {
+const getConfig = (root?: string): Record<string, any> => {
   const overrides = findOverrides(root);
 
   if (typeof overrides !== 'object') {
@@ -60,4 +59,4 @@ const getConfig = (root) => {
   };
 };
 
-module.exports = getConfig;
+export default getConfig;

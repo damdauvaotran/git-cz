@@ -1,8 +1,8 @@
 /* eslint-disable no-process-exit */
 /* eslint-disable no-console */
 /* eslint-disable id-length */
-const minimist = require('minimist');
-const pkg = require('../package.json');
+import minimist from 'minimist';
+import pkg from '../package.json';
 
 const helpScreen = `
     ${pkg.description}
@@ -26,7 +26,33 @@ const helpScreen = `
         --lerna             Lerna mono-repo packages this commit affects
 `;
 
-const parseArgs = () => {
+interface CLIOptions {
+  disableEmoji: boolean;
+  dryRun: boolean;
+  format: string;
+  help: boolean;
+  hook: boolean;
+  nonInteractive: boolean;
+  version: boolean;
+}
+
+interface CLIAnswers {
+  body: string;
+  breaking: string;
+  issues: string;
+  lerna: string;
+  scope: string;
+  subject: string;
+  type: string;
+}
+
+interface ParsedArgs {
+  cliAnswers: CLIAnswers;
+  cliOptions: CLIOptions;
+  passThroughParams: Record<string, any>;
+}
+
+const parseArgs = (): ParsedArgs => {
   const {
     // eslint-disable-next-line no-unused-vars
     _: inputs,
@@ -82,7 +108,7 @@ const parseArgs = () => {
     process.exit();
   }
 
-  const cliOptions = {
+  const cliOptions: CLIOptions = {
     disableEmoji,
     dryRun,
     format,
@@ -92,7 +118,7 @@ const parseArgs = () => {
     version
   };
 
-  const cliAnswers = {
+  const cliAnswers: CLIAnswers = {
     body,
     breaking,
     issues,
@@ -109,4 +135,4 @@ const parseArgs = () => {
   };
 };
 
-module.exports = parseArgs;
+export default parseArgs;

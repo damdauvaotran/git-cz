@@ -4,7 +4,7 @@
     "es6": true,
     "node": true
   },
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -22,7 +22,8 @@
     "jsdoc",
     "promise",
     "filenames",
-    "unicorn"
+    "unicorn",
+    "@typescript-eslint"
   ],
   "rules": {
     "accessor-pairs": 2,
@@ -527,7 +528,10 @@
     "import/unambiguous": "off",
     "import/no-commonjs": "off",
     "promise/prefer-await-to-then": "off",
-    "strict": "off"
+    "strict": "off",
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-explicit-any": "error"
   },
   "settings": {
     "import/extensions": [".js"]

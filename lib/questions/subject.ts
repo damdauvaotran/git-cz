@@ -1,8 +1,8 @@
-exports.createQuestion = (state) => {
+export const createQuestion = (state: any) => {
   const {config} = state;
   const minTitleLengthErrorMessage = `The subject must have at least ${config.minMessageLength} characters`;
   const question = {
-    filter: (input) => {
+    filter: (input: string) => {
       let subject;
 
       subject = input.trim();
@@ -12,7 +12,7 @@ exports.createQuestion = (state) => {
 
       return subject;
     },
-    leadingLabel: (answers) => {
+    leadingLabel: (answers: any) => {
       let scope = '';
 
       if (answers.scope && answers.scope !== 'none') {
@@ -27,7 +27,7 @@ exports.createQuestion = (state) => {
     message: 'Write a short, imperative mood description of the change:',
     name: 'subject',
     type: 'limitedInput',
-    validate: (input) => input.length >= config.minMessageLength || minTitleLengthErrorMessage
+    validate: (input: string) => input.length >= config.minMessageLength || minTitleLengthErrorMessage
   };
 
   return question;

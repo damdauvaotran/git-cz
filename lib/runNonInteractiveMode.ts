@@ -1,4 +1,4 @@
-const runNonInteractiveMode = (state, {type = 'chore', subject = 'automated commit', ...restAnswers}) => {
+const runNonInteractiveMode = (state: any, {type = 'chore', subject = 'automated commit', ...restAnswers}: any) => {
   const answers = {
     subject,
     type,
@@ -13,4 +13,4 @@ const runNonInteractiveMode = (state, {type = 'chore', subject = 'automated comm
   });
 };
 
-module.exports = runNonInteractiveMode;
+export default runNonInteractiveMode;

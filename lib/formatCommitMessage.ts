@@ -1,10 +1,8 @@
-/* eslint-disable complexity */
-
-const wrap = require('word-wrap');
+import wrap from 'word-wrap';
 
 const MAX_LINE_WIDTH = 72;
 
-const makeAffectsLine = function (answers) {
+const makeAffectsLine = function (answers: any): string {
   const selectedPackages = answers.packages;
 
   if (selectedPackages && selectedPackages.length) {
@@ -14,7 +12,7 @@ const makeAffectsLine = function (answers) {
   return '';
 };
 
-const formatCommitMessage = (state) => {
+const formatCommitMessage = (state: any): string => {
   const {config, answers} = state;
   const wrapOptions = {
     indent: '',
@@ -64,4 +62,4 @@ const formatCommitMessage = (state) => {
   return msg;
 };
 
-module.exports = formatCommitMessage;
+export default formatCommitMessage;

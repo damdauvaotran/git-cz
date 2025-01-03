@@ -21,7 +21,7 @@ refs:
     - &Build
       run:
         name: Build
-        command: yarn build
+        command: yarn build && yarn build:ts
     - &Build_binaries
       run:
         name: Build binaries

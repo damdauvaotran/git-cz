@@ -1,11 +1,11 @@
 /* eslint-disable import/no-dynamic-require, global-require */
-const qBody = require('./questions/body');
-const qBreaking = require('./questions/breaking');
-const qIssues = require('./questions/issues');
-const qLerna = require('./questions/lerna');
-const qScope = require('./questions/scope');
-const qSubject = require('./questions/subject');
-const qType = require('./questions/type');
+import qBody from './questions/body';
+import qBreaking from './questions/breaking';
+import qIssues from './questions/issues';
+import qLerna from './questions/lerna';
+import qScope from './questions/scope';
+import qSubject from './questions/subject';
+import qType from './questions/type';
 
 const creators = {
   body: qBody,
@@ -17,10 +17,10 @@ const creators = {
   type: qType
 };
 
-const createQuestions = (state, cliAnswers) => {
+const createQuestions = (state: any, cliAnswers: any) => {
   const questions = state.config.questions
-    .filter((name) => cliAnswers[name] === undefined)
-    .map((name) => {
+    .filter((name: string) => cliAnswers[name] === undefined)
+    .map((name: string) => {
       const question = creators[name].createQuestion(state);
 
       if (state.config.messages && state.config.messages[name]) {
@@ -33,4 +33,4 @@ const createQuestions = (state, cliAnswers) => {
   return questions.filter(Boolean);
 };
 
-module.exports = createQuestions;
+export default createQuestions;

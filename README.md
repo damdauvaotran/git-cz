@@ -7,15 +7,15 @@
 ### Without installation
 
 ```shell
-npx git-cz
+npx @damdauvaotran/git-cz
 # or
-npx git-cz -e
+npx @damdauvaotran/git-cz -e
 ```
 
 ### Install globally standalone
 
 ```shell
-npm install -g git-cz
+npm install -g @damdauvaotran/git-cz
 git-cz
 # or
 git-cz -e
@@ -25,7 +25,7 @@ git-cz -e
 
 ```shell
 npm install -g commitizen
-npm install --save-dev git-cz
+npm install --save-dev @damdauvaotran/git-cz
 ```
 
 `package.json`:
@@ -34,7 +34,7 @@ npm install --save-dev git-cz
 {
   "config": {
     "commitizen": {
-      "path": "git-cz"
+      "path": "@damdauvaotran/git-cz"
     }
   }
 }
@@ -49,8 +49,8 @@ git cz
 ### Install globally with Commitizen
 
 ```shell
-npm install -g commitizen git-cz
-commitizen init git-cz --save-dev --save-exact
+npm install -g commitizen @damdauvaotran/git-cz
+commitizen init @damdauvaotran/git-cz --save-dev --save-exact
 ```
 
 run:

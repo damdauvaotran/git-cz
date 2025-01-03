@@ -5,9 +5,7 @@
 .idea/
 node_modules/
 npm-debug.log
-yarn.lock
 .vscode/
-yarn-error.log
 lib/
 .eslintrs.json
 .nvmrc
@@ -15,7 +13,7 @@ lib/
 index.js
 package-lock.json
 run.js
-yarn.lock
 /test/
 /build/
 /docs/
+pnpm-lock.yaml

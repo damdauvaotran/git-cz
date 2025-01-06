@@ -30,6 +30,6 @@ exports[`git-cz --non-interactive 1`] = `
 Will execute command:
 git commit --file '.git/COMMIT_EDITMSG'
 Message:
-[] chore: automated commit
+[] chore: 🤖 automated commit
 "
 `;

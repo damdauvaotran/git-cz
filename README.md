@@ -244,16 +244,111 @@ Select the packages the commit affected.
 
 The footer is the place to reference any tasks related to this commit.
 
-## Why this Fork?
+## New Task Variable in Format
+
+You can now use a new task variable in the format. The task variable is extracted from the branch name using a regular expression. The default regular expression looks for the task ID in branch names that follow the pattern `feature/task-id` or `tasks/task-id`.
+
+For example, if your branch name is `feature/123-add-new-feature`, the task variable will be `123-add-new-feature`.
+
+To use the task variable in your commit message format, include `{task}` in the format string. For example:
 
 ```bash
-npm i -g git-cz
-added 1 package in 0.612s
+git-cz --format="{type}{scope}: {emoji}{subject} [{task}]"
 ```
 
-Installs in 0.6s vs 31.1s.
+## Order or Priority of Configuration Files
+
+The configuration files are loaded in the following order of priority:
+
+1. Folder config
+2. Home config (Can be different for each OS)
+3. Default configuration
+
+
+
+The supported configuration files are:
+
+- `.git-cz.json`
+- `changelog.config.js`
+- `changelog.config.cjs`
+- `changelog.config.json`
+
+## Examples and Instructions for Using the New Task Variable
+
+Here are some examples and instructions for using the new task variable in the format:
+
+1. Ensure your branch name follows the pattern `feature/task-id` or `tasks/task-id`.
+2. Use the `--format` option to specify a custom format that includes the `{task}` variable.
+3. Run `git-cz` with the custom format.
+
+For example:
 
 ```bash
-npm i -g mol-conventional-changelog
-added 345 packages in 31.076s
+git checkout -b feature/123-add-new-feature
+git-cz --format="{type}{scope}: {emoji}{subject} [{task}]"
+```
+
+This will generate a commit message with the task ID extracted from the branch name and included in the commit message.
+
+## Support for pnpm in GitHub Action
+
+The GitHub Actions workflow now supports pnpm for installing dependencies, linting code, building the project, running tests, and releasing. The workflow is configured to work with the `master` branch.
+
+To use pnpm in your GitHub Actions workflow, make sure to include the following steps:
+
+1. Set up Node.js using `actions/setup-node@v2` with the desired Node.js version.
+2. Install pnpm using `pnpm/action-setup@v3`.
+3. Install dependencies using `pnpm install`.
+4. Lint code using `pnpm run lint`.
+5. Build the project using `pnpm run build`.
+6. Run tests using `pnpm test`.
+7. Release using `pnpm run release`.
+
+Here is an example of a GitHub Actions workflow that supports pnpm:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint code
+        run: pnpm run lint
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Release
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm run release
 ```

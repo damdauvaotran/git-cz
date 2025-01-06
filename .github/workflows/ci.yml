@@ -3,10 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
     branches:
-      - main
+      - master
 
 jobs:
   build:
@@ -21,6 +21,10 @@ jobs:
         with:
           node-version: 16
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8  # Optional: specify a pnpm version
       - name: Install dependencies
         run: pnpm install
 
@@ -34,7 +38,7 @@ jobs:
         run: pnpm test
 
       - name: Release
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -283,3 +283,66 @@ git-cz --format="{type}{scope}: {emoji}{subject} [{task}]"
 ```
 
 This will generate a commit message with the task ID extracted from the branch name and included in the commit message.
+
+## Support for pnpm in GitHub Action
+
+The GitHub Actions workflow now supports pnpm for installing dependencies, linting code, building the project, running tests, and releasing. The workflow is configured to work with the `master` branch.
+
+To use pnpm in your GitHub Actions workflow, make sure to include the following steps:
+
+1. Set up Node.js using `actions/setup-node@v2` with the desired Node.js version.
+2. Install pnpm using `pnpm/action-setup@v3`.
+3. Install dependencies using `pnpm install`.
+4. Lint code using `pnpm run lint`.
+5. Build the project using `pnpm run build`.
+6. Run tests using `pnpm test`.
+7. Release using `pnpm run release`.
+
+Here is an example of a GitHub Actions workflow that supports pnpm:
+
+```yaml
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Lint code
+        run: pnpm run lint
+
+      - name: Build project
+        run: pnpm run build
+
+      - name: Run tests
+        run: pnpm test
+
+      - name: Release
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm run release
+```

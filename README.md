@@ -244,16 +244,42 @@ Select the packages the commit affected.
 
 The footer is the place to reference any tasks related to this commit.
 
-## Why this Fork?
+## New Task Variable in Format
+
+You can now use a new task variable in the format. The task variable is extracted from the branch name using a regular expression. The default regular expression looks for the task ID in branch names that follow the pattern `feature/task-id` or `tasks/task-id`.
+
+For example, if your branch name is `feature/123-add-new-feature`, the task variable will be `123-add-new-feature`.
+
+To use the task variable in your commit message format, include `{task}` in the format string. For example:
 
 ```bash
-npm i -g git-cz
-added 1 package in 0.612s
+git-cz --format="{type}{scope}: {emoji}{subject} [{task}]"
 ```
 
-Installs in 0.6s vs 31.1s.
+## Prioritizing Config File in Home Folder
+
+The configuration file can now be prioritized in the home folder. If a configuration file is found in the home folder, it will be used instead of searching for a configuration file in the repository or parent folders.
+
+The supported configuration files are:
+
+- `.git-cz.json`
+- `changelog.config.js`
+- `changelog.config.cjs`
+- `changelog.config.json`
+
+## Examples and Instructions for Using the New Task Variable
+
+Here are some examples and instructions for using the new task variable in the format:
+
+1. Ensure your branch name follows the pattern `feature/task-id` or `tasks/task-id`.
+2. Use the `--format` option to specify a custom format that includes the `{task}` variable.
+3. Run `git-cz` with the custom format.
+
+For example:
 
 ```bash
-npm i -g mol-conventional-changelog
-added 345 packages in 31.076s
+git checkout -b feature/123-add-new-feature
+git-cz --format="{type}{scope}: {emoji}{subject} [{task}]"
 ```
+
+This will generate a commit message with the task ID extracted from the branch name and included in the commit message.

@@ -256,9 +256,15 @@ To use the task variable in your commit message format, include `{task}` in the 
 git-cz --format="{type}{scope}: {emoji}{subject} [{task}]"
 ```
 
-## Prioritizing Config File in Home Folder
+## Order or Priority of Configuration Files
 
-The configuration file can now be prioritized in the home folder. If a configuration file is found in the home folder, it will be used instead of searching for a configuration file in the repository or parent folders.
+The configuration files are loaded in the following order of priority:
+
+1. Folder config
+2. Home config (Can be different for each OS)
+3. Default configuration
+
+
 
 The supported configuration files are:
 

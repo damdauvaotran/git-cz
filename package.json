@@ -30,7 +30,9 @@
   "devDependencies": {
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/git": "10.0.1",
+    "@semantic-release/npm": "7.0.10",
     "any-shell-escape": "0.1.1",
+    "babel-eslint": "^10.1.0",
     "browserify": "17.0.1",
     "chai": "4.5.0",
     "chalk": "4.1.2",
@@ -57,8 +59,7 @@
     "semantic-release": "19.0.5",
     "signale": "1.4.0",
     "spawncommand": "2.2.0",
-    "word-wrap": "1.2.5",
-    "@semantic-release/npm": "7.0.10"
+    "word-wrap": "1.2.5"
   },
   "husky": {
     "hooks": {

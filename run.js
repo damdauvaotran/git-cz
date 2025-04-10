@@ -1,3 +1,0 @@
-const {prompter} = require('.');
-
-prompter();

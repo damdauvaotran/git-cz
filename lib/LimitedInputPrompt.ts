@@ -1,9 +1,20 @@
-const chalk = require('chalk');
-const InputPrompt = require('inquirer/lib/prompts/input');
+import chalk from 'chalk';
+import InputPrompt from 'inquirer/lib/prompts/input';
+
+interface LimitedInputPromptOptions {
+  maxLength: number;
+  message: string;
+  leadingLabel?: string | ((answers: any) => string);
+}
 
 class LimitedInputPrompt extends InputPrompt {
-  constructor (...args) {
-    super(...args);
+  private originalMessage: string;
+  private spacer: string;
+  private leadingLabel: string;
+  private leadingLength: number;
+
+  constructor (args: any[], private opt: LimitedInputPromptOptions) {
+    super(args);
 
     if (!this.opt.maxLength) {
       this.throwParamError('maxLength');
@@ -24,11 +35,11 @@ class LimitedInputPrompt extends InputPrompt {
     this.leadingLength = this.leadingLabel.length;
   }
 
-  remainingChar () {
+  remainingChar (): number {
     return this.opt.maxLength - this.leadingLength - this.rl.line.length;
   }
 
-  onKeypress () {
+  onKeypress (): void {
     if (this.rl.line.length > this.opt.maxLength - this.leadingLength) {
       this.rl.line = this.rl.line.slice(0, this.opt.maxLength - this.leadingLength);
       this.rl.cursor--;
@@ -37,7 +48,7 @@ class LimitedInputPrompt extends InputPrompt {
     this.render();
   }
 
-  getCharsLeftText () {
+  getCharsLeftText (): string {
     const chars = this.remainingChar();
 
     if (chars > 15) {
@@ -49,7 +60,7 @@ class LimitedInputPrompt extends InputPrompt {
     }
   }
 
-  render (error) {
+  render (error?: string): void {
     let bottomContent = '';
     let message = this.getQuestion();
     let appendContent = '';
@@ -73,4 +84,4 @@ class LimitedInputPrompt extends InputPrompt {
   }
 }
 
-module.exports = LimitedInputPrompt;
+export default LimitedInputPrompt;

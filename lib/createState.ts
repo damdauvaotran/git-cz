@@ -1,8 +1,22 @@
-const getGitRootDir = require('./util/getGitRootDir');
-const getConfig = require('./getConfig');
+import getGitRootDir from './util/getGitRootDir';
+import getConfig from './getConfig';
 
-const createState = (config = {}) => {
-  let root;
+interface State {
+  answers: {
+    body: string;
+    breaking: string;
+    issues: string;
+    lerna: string;
+    scope: string;
+    subject: string;
+    type: string;
+  };
+  config: any;
+  root: string;
+}
+
+const createState = (config: any = {}): State => {
+  let root: string;
 
   try {
     root = getGitRootDir();
@@ -10,7 +24,7 @@ const createState = (config = {}) => {
     throw new Error('Could not find Git root folder.');
   }
 
-  const state = {
+  const state: State = {
     answers: {
       body: '',
       breaking: '',
@@ -34,4 +48,4 @@ const createState = (config = {}) => {
   return state;
 };
 
-module.exports = createState;
+export default createState;

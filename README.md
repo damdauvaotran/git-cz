@@ -352,3 +352,99 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: pnpm run release
 ```
+
+## Using and Configuring TypeScript
+
+This project has been migrated to TypeScript. Here are the instructions for using and configuring TypeScript in this project.
+
+### Prerequisites
+
+Make sure you have Node.js and npm installed on your machine.
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/damdauvaotran/git-cz.git
+cd git-cz
+```
+
+2. Install the dependencies:
+
+```bash
+npm install
+```
+
+### Building the Project
+
+To build the TypeScript project, run the following command:
+
+```bash
+npm run build:ts
+```
+
+This will compile the TypeScript files and generate the JavaScript output in the `dist` directory.
+
+### Running the Project
+
+To run the project, use the following command:
+
+```bash
+npm start
+```
+
+### TypeScript Configuration
+
+The TypeScript configuration is defined in the `tsconfig.json` file. You can customize the configuration according to your needs. Here is an example of the `tsconfig.json` file:
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+### Adding TypeScript Types
+
+When converting JavaScript files to TypeScript, make sure to add appropriate TypeScript types for variables and functions. This will help in catching type errors and improving code quality.
+
+### Converting JavaScript Files to TypeScript
+
+To convert JavaScript files to TypeScript, follow these steps:
+
+1. Rename the JavaScript file extension from `.js` to `.ts`.
+2. Replace `require` statements with `import` statements.
+3. Add TypeScript types for variables and functions.
+4. Update the code to use async/await syntax where applicable.
+
+For example, to convert `index.js` to `index.ts`:
+
+1. Rename `index.js` to `index.ts`.
+2. Replace `require` statements with `import` statements.
+3. Add TypeScript types for variables and functions.
+4. Update the code to use async/await syntax where applicable.
+
+### Running Tests
+
+To run the tests, use the following command:
+
+```bash
+npm test
+```
+
+Make sure to convert the test files to TypeScript as well by following the same steps mentioned above.
+
+### Conclusion
+
+By following these instructions, you can use and configure TypeScript in this project. TypeScript provides static type checking, improved code quality, and better developer experience. Enjoy coding with TypeScript!

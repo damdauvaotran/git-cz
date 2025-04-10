@@ -25,7 +25,8 @@
     "test:dev": "jest --watch",
     "test:coverage": "jest --coverage",
     "release": "semantic-release",
-    "eslint": "eslint lib/*.js"
+    "eslint": "eslint lib/*.js",
+    "build:ts": "tsc" // P54ae
   },
   "devDependencies": {
     "@semantic-release/changelog": "6.0.3",
@@ -59,6 +60,8 @@
     "semantic-release": "19.0.5",
     "signale": "1.4.0",
     "spawncommand": "2.2.0",
+    "typescript": "^4.5.4", // P9a5a
+    "ts-node": "^10.4.0", // P9a5a
     "word-wrap": "1.2.5"
   },
   "husky": {

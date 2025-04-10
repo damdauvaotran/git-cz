@@ -1,6 +1,12 @@
-const format = '[{task}] {type}{scope}: {emoji}{subject}';
+const format: string = '[{task}] {type}{scope}: {emoji}{subject}';
 
-const types = {
+interface CommitType {
+  description: string;
+  emoji: string;
+  value: string;
+}
+
+const types: Record<string, CommitType> = {
   chore: {
     description: 'Build process or auxiliary tool changes',
     emoji: '🤖',
@@ -54,7 +60,7 @@ const types = {
 };
 
 // https://github.com/angular/angular/blob/master/CONTRIBUTING.md#type
-const list = [
+const list: string[] = [
   'test',
   'feat',
   'fix',
@@ -67,9 +73,9 @@ const list = [
 ];
 
 // https://github.com/angular/angular/blob/master/CONTRIBUTING.md#scope
-const scopes = [];
+const scopes: string[] = [];
 
-const questions = [
+const questions: string[] = [
   'type',
   'scope',
   'subject',
@@ -79,7 +85,20 @@ const questions = [
   'lerna'
 ];
 
-module.exports = {
+interface Config {
+  breakingChangePrefix: string;
+  closedIssueMessage: string;
+  closedIssuePrefix: string;
+  format: string;
+  list: string[];
+  maxMessageLength: number;
+  minMessageLength: number;
+  questions: string[];
+  scopes: string[];
+  types: Record<string, CommitType>;
+}
+
+const config: Config = {
   breakingChangePrefix: '🧨 ',
   closedIssueMessage: 'Closes: ',
   closedIssuePrefix: '✅ ',
@@ -91,3 +110,5 @@ module.exports = {
   scopes,
   types
 };
+
+export default config;

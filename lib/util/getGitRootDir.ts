@@ -1,6 +1,6 @@
-const {execSync} = require('child_process');
+import { execSync } from 'child_process';
 
-const getGitRootDir = () => {
+const getGitRootDir = (): string => {
   const devNull = process.platform === 'win32' ? ' nul' : '/dev/null';
   const dir = execSync('git rev-parse --show-toplevel 2>' + devNull)
     .toString()
@@ -9,4 +9,4 @@ const getGitRootDir = () => {
   return dir;
 };
 
-module.exports = getGitRootDir;
+export default getGitRootDir;

@@ -1,9 +1,22 @@
-/* eslint-disable global-require, import/no-dynamic-require */
-const path = require('path');
-const fs = require('fs');
-const os = require('os');
-const signale = require('signale');
-const defaults = require('./defaults');
+import path from 'path';
+import fs from 'fs';
+import os from 'os';
+import signale from 'signale';
+import defaults from './defaults';
+
+interface Config {
+  disableEmoji: boolean;
+  format: string;
+  list: string[];
+  maxMessageLength: number;
+  minMessageLength: number;
+  questions: string[];
+  scopes: string[];
+  types: Record<string, { description: string; emoji: string; value: string }>;
+  breakingChangePrefix: string;
+  closedIssueMessage: string;
+  closedIssuePrefix: string;
+}
 
 const configFiles = [
   '.git-cz.json',
@@ -12,7 +25,7 @@ const configFiles = [
   'changelog.config.json'
 ];
 
-const findOverrides = (root) => {
+const findOverrides = (root: string): Partial<Config> => {
   const dir = root || process.cwd();
 
   for (const file of configFiles) {
@@ -56,7 +69,7 @@ const findOverrides = (root) => {
   return {};
 };
 
-const getConfig = (root) => {
+const getConfig = (root: string): Config => {
   const overrides = findOverrides(root);
 
   if (typeof overrides !== 'object') {
@@ -72,4 +85,4 @@ const getConfig = (root) => {
   };
 };
 
-module.exports = getConfig;
+export default getConfig;

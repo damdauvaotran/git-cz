@@ -1,17 +1,42 @@
-const {spawn, execSync} = require('child_process');
-const fs = require('fs');
-const {join} = require('path');
-const shellescape = require('any-shell-escape');
-const signale = require('signale');
-const parseArgs = require('./parseArgs');
-const createState = require('./createState');
-const runInteractiveQuestions = require('./runInteractiveQuestions');
-const runNonInteractiveMode = require('./runNonInteractiveMode');
-const formatCommitMessage = require('./formatCommitMessage');
-const getGitDir = require('./util/getGitDir');
+import { spawn, execSync } from 'child_process';
+import fs from 'fs';
+import { join } from 'path';
+import shellescape from 'any-shell-escape';
+import signale from 'signale';
+import parseArgs from './parseArgs';
+import createState from './createState';
+import runInteractiveQuestions from './runInteractiveQuestions';
+import runNonInteractiveMode from './runNonInteractiveMode';
+import formatCommitMessage from './formatCommitMessage';
+import getGitDir from './util/getGitDir';
 
-// eslint-disable-next-line no-process-env
-const executeCommand = (command, env = process.env) => {
+interface CLIOptions {
+  disableEmoji?: boolean;
+  dryRun?: boolean;
+  format?: string;
+  help?: boolean;
+  hook?: boolean;
+  nonInteractive?: boolean;
+  version?: boolean;
+}
+
+interface CLIAnswers {
+  body?: string;
+  breaking?: string;
+  issues?: string;
+  lerna?: string;
+  scope?: string;
+  subject?: string;
+  type?: string;
+}
+
+interface State {
+  answers: CLIAnswers;
+  config: any;
+  root: string;
+}
+
+const executeCommand = (command: string, env: NodeJS.ProcessEnv = process.env): void => {
   const proc = spawn(command, [], {
     env,
     shell: true,
@@ -19,26 +44,23 @@ const executeCommand = (command, env = process.env) => {
   });
 
   proc.on('close', (code) => {
-    // eslint-disable-next-line no-process-exit
     process.exit(code);
   });
 };
 
-// eslint-disable-next-line complexity
-const main = async () => {
+const main = async (): Promise<void> => {
   try {
-    const {cliAnswers, cliOptions, passThroughParams} = parseArgs();
+    const { cliAnswers, cliOptions, passThroughParams } = parseArgs();
 
-    let state = null;
+    let state: State | null = null;
 
     if (cliOptions.disableEmoji) {
-      state = createState({disableEmoji: cliOptions.disableEmoji});
+      state = createState({ disableEmoji: cliOptions.disableEmoji });
     } else {
       state = createState();
     }
 
     if (cliOptions.dryRun) {
-      // eslint-disable-next-line no-console
       console.log('Running in dry mode.');
     } else if (
       !passThroughParams['allow-empty'] &&
@@ -46,21 +68,11 @@ const main = async () => {
       !passThroughParams.amend
     ) {
       try {
-        /**
-         * @author https://github.com/rodrigograca31
-         * @see https://github.com/streamich/git-cz/issues/177
-         *
-         * Exits with 1 if there are differences and 0 if no differences.
-         */
         execSync('git diff HEAD --staged --quiet --exit-code');
-
-        // Executes the following line only if the one above didn't crash (exit code: 0)
         signale.error('No files staged!');
-
-        // eslint-disable-next-line no-process-exit
         process.exit(0);
       } catch (error) {
-        // eslint-disable no-empty
+        // no-op
       }
     }
 
@@ -75,9 +87,8 @@ const main = async () => {
 
     const message = formatCommitMessage(state);
 
-    const appendedArgs = [];
+    const appendedArgs: string[] = [];
 
-    // eslint-disable-next-line guard-for-in
     for (const key in passThroughParams) {
       const value = passThroughParams[key];
 
@@ -103,25 +114,14 @@ const main = async () => {
     ]);
 
     if (cliOptions.dryRun) {
-      // eslint-disable-next-line no-console
       console.log('Will execute command:');
-
-      // The full path is replaced with a relative path to make the test pass on every machine
-      // eslint-disable-next-line no-console
       console.log(command.replace(commitMsgFile, '.git/COMMIT_EDITMSG'));
-      // eslint-disable-next-line no-console
       console.log('Message:');
-      // eslint-disable-next-line no-console
       console.log(message);
     } else {
       fs.writeFileSync(commitMsgFile, message);
 
-      /**
-       * @author https://github.com/oxyii
-       * @see https://github.com/streamich/git-cz/issues/79
-       */
       if (cliOptions.hook) {
-        // eslint-disable-next-line no-process-exit
         process.exit(0);
       }
 

@@ -1,6 +1,5 @@
-/* eslint-disable sort-keys */
-const {expect} = require('chai');
-const formatCommitMessage = require('../lib/formatCommitMessage');
+import { expect } from 'chai';
+import formatCommitMessage from '../lib/formatCommitMessage';
 
 const defaultConfig = {
   disableEmoji: false,

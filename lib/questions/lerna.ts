@@ -1,6 +1,18 @@
-const {getAllPackages, getChangedPackages, isLerna} = require('../util/lerna');
+import { getAllPackages, getChangedPackages, isLerna } from '../util/lerna';
 
-exports.createQuestion = (state) => {
+interface State {
+  root: string;
+}
+
+interface Question {
+  choices: string[];
+  default: string[];
+  message: string;
+  name: string;
+  type: string;
+}
+
+export const createQuestion = (state: State): Question | null => {
   if (!isLerna(state)) {
     return null;
   }
@@ -8,7 +20,7 @@ exports.createQuestion = (state) => {
   const changedPackages = getChangedPackages(state);
   const allPackages = getAllPackages(state);
 
-  const question = {
+  const question: Question = {
     choices: allPackages,
     default: changedPackages,
     message: `The packages that this commit has affected (${changedPackages.length} detected)\n`,
